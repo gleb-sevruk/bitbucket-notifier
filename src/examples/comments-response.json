@@ -1,0 +1,58 @@
+{
+  "size": 2,
+  "limit": 25,
+  "isLastPage": true,
+  "values": [
+    {
+      "id": 54321,
+      "version": 0,
+      "text": "This looks good to me. Just one minor suggestion on line 42.",
+      "author": {
+        "name": "user2",
+        "emailAddress": "user2@example.com",
+        "active": true,
+        "displayName": "User Two",
+        "id": 1463,
+        "slug": "user2",
+        "type": "NORMAL"
+      },
+      "createdDate": 1741949345600,
+      "updatedDate": 1741949345600,
+      "permittedOperations": {
+        "deletable": true,
+        "editable": true
+      },
+      "anchors": [
+        {
+          "id": 98765,
+          "fileType": "FROM",
+          "path": "src/domain/storage/repository/history_repository.py",
+          "lineType": "CONTEXT",
+          "fromHash": "4214be43a3e8295ffaa4c4b07749a6d9a26fb2c8",
+          "toHash": "217361756652fe04e56e3eccb098a80cfe2c898f",
+          "line": 42
+        }
+      ]
+    },
+    {
+      "id": 54322,
+      "version": 0,
+      "text": "I'll take a look at this tomorrow morning.",
+      "author": {
+        "name": "user3",
+        "emailAddress": "user3@example.com",
+        "active": true,
+        "displayName": "User Three",
+        "id": 358,
+        "slug": "user3",
+        "type": "NORMAL"
+      },
+      "createdDate": 1741949356700,
+      "updatedDate": 1741949356700,
+      "permittedOperations": {
+        "deletable": true,
+        "editable": true
+      }
+    }
+  ]
+}

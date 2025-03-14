@@ -1,0 +1,200 @@
+{
+    "size": 5,
+    "limit": 25,
+    "isLastPage": true,
+    "values": [
+        {
+            "id": 1607,
+            "version": 1,
+            "title": "PROJ-10037 - added support for FEATURE_X discovery reason",
+            "description": "This changes should be sufficient for SERVICE to support new discovery reason\n\nThe main question remains (https://bitbucket.example.com/projects/PROJ/repos/service-name/pull-requests/675/overview?commentId=122929)",
+            "state": "OPEN",
+            "open": true,
+            "closed": false,
+            "draft": false,
+            "createdDate": 1741949345347,
+            "updatedDate": 1741949404476,
+            "fromRef": {
+                "id": "refs/heads/PROJ-10037_feature_branch",
+                "displayId": "PROJ-10037_feature_branch",
+                "latestCommit": "4214be43a3e8295ffaa4c4b07749a6d9a26fb2c8",
+                "type": "BRANCH",
+                "repository": {
+                    "slug": "service-name",
+                    "id": 253,
+                    "name": "service-name",
+                    "hierarchyId": "ef4e3279343338fbf98b",
+                    "scmId": "git",
+                    "state": "AVAILABLE",
+                    "statusMessage": "Available",
+                    "forkable": true,
+                    "project": {
+                        "key": "PROJ",
+                        "id": 227,
+                        "name": "Project Name",
+                        "public": false,
+                        "type": "NORMAL",
+                        "links": {
+                            "self": [
+                                {
+                                    "href": "https://bitbucket.example.com/projects/PROJ"
+                                }
+                            ]
+                        }
+                    },
+                    "public": false,
+                    "archived": false,
+                    "links": {
+                        "clone": [
+                            {
+                                "href": "https://bitbucket.example.com/scm/proj/service-name.git",
+                                "name": "http"
+                            },
+                            {
+                                "href": "ssh://git@bitbucket.example.com:7999/proj/service-name.git",
+                                "name": "ssh"
+                            }
+                        ],
+                        "self": [
+                            {
+                                "href": "https://bitbucket.example.com/projects/PROJ/repos/service-name/browse"
+                            }
+                        ]
+                    }
+                }
+            },
+            "toRef": {
+                "id": "refs/heads/develop",
+                "displayId": "develop",
+                "latestCommit": "217361756652fe04e56e3eccb098a80cfe2c898f",
+                "type": "BRANCH",
+                "repository": {
+                    "slug": "service-name",
+                    "id": 253,
+                    "name": "service-name",
+                    "hierarchyId": "ef4e3279343338fbf98b",
+                    "scmId": "git",
+                    "state": "AVAILABLE",
+                    "statusMessage": "Available",
+                    "forkable": true,
+                    "project": {
+                        "key": "PROJ",
+                        "id": 227,
+                        "name": "Project Name",
+                        "public": false,
+                        "type": "NORMAL",
+                        "links": {
+                            "self": [
+                                {
+                                    "href": "https://bitbucket.example.com/projects/PROJ"
+                                }
+                            ]
+                        }
+                    },
+                    "public": false,
+                    "archived": false,
+                    "links": {
+                        "clone": [
+                            {
+                                "href": "https://bitbucket.example.com/scm/proj/service-name.git",
+                                "name": "http"
+                            },
+                            {
+                                "href": "ssh://git@bitbucket.example.com:7999/proj/service-name.git",
+                                "name": "ssh"
+                            }
+                        ],
+                        "self": [
+                            {
+                                "href": "https://bitbucket.example.com/projects/PROJ/repos/service-name/browse"
+                            }
+                        ]
+                    }
+                }
+            },
+            "locked": false,
+            "author": {
+                "user": {
+                    "name": "user1",
+                    "emailAddress": "user1@example.com",
+                    "active": true,
+                    "displayName": "User One",
+                    "id": 1852,
+                    "slug": "user1",
+                    "type": "NORMAL",
+                    "links": {
+                        "self": [
+                            {
+                                "href": "https://bitbucket.example.com/users/user1"
+                            }
+                        ]
+                    }
+                },
+                "role": "AUTHOR",
+                "approved": false,
+                "status": "UNAPPROVED"
+            },
+            "reviewers": [
+                {
+                    "user": {
+                        "name": "user2",
+                        "emailAddress": "user2@example.com",
+                        "active": true,
+                        "displayName": "User Two",
+                        "id": 1463,
+                        "slug": "user2",
+                        "type": "NORMAL",
+                        "links": {
+                            "self": [
+                                {
+                                    "href": "https://bitbucket.example.com/users/user2"
+                                }
+                            ]
+                        }
+                    },
+                    "role": "REVIEWER",
+                    "approved": false,
+                    "status": "UNAPPROVED"
+                },
+                {
+                    "user": {
+                        "name": "user3",
+                        "emailAddress": "user3@example.com",
+                        "active": true,
+                        "displayName": "User Three",
+                        "id": 358,
+                        "slug": "user3",
+                        "type": "NORMAL",
+                        "links": {
+                            "self": [
+                                {
+                                    "href": "https://bitbucket.example.com/users/user3"
+                                }
+                            ]
+                        }
+                    },
+                    "role": "REVIEWER",
+                    "approved": false,
+                    "status": "UNAPPROVED"
+                }
+            ],
+            "participants": [],
+            "properties": {
+                "mergeResult": {
+                    "outcome": "CLEAN",
+                    "current": true
+                },
+                "resolvedTaskCount": 0,
+                "commentCount": 0,
+                "openTaskCount": 0
+            },
+            "links": {
+                "self": [
+                    {
+                        "href": "https://bitbucket.example.com/projects/PROJ/repos/service-name/pull-requests/1607"
+                    }
+                ]
+            }
+        }
+    ]
+}

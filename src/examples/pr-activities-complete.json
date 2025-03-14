@@ -1,0 +1,241 @@
+{
+    "size": 4,
+    "limit": 25,
+    "isLastPage": true,
+    "values": [
+        {
+            "id": 552394,
+            "createdDate": 1741900874148,
+            "user": {
+                "name": "user3",
+                "emailAddress": "user3@example.com",
+                "active": true,
+                "displayName": "User Three",
+                "id": 358,
+                "slug": "user3",
+                "type": "NORMAL",
+                "links": {
+                    "self": [
+                        {
+                            "href": "https://bitbucket.example.com/users/user3"
+                        }
+                    ]
+                }
+            },
+            "action": "COMMENTED",
+            "commentAction": "ADDED",
+            "comment": {
+                "properties": {
+                    "repositoryId": 175
+                },
+                "id": 122929,
+                "version": 0,
+                "text": "What data is this decision based on? what are the effects across all customers?",
+                "author": {
+                    "name": "user3",
+                    "emailAddress": "user3@example.com",
+                    "active": true,
+                    "displayName": "User Three",
+                    "id": 358,
+                    "slug": "user3",
+                    "type": "NORMAL",
+                    "links": {
+                        "self": [
+                            {
+                                "href": "https://bitbucket.example.com/users/user3"
+                            }
+                        ]
+                    }
+                },
+                "createdDate": 1741900874142,
+                "updatedDate": 1741900874142,
+                "comments": [
+                    {
+                        "properties": {
+                            "repositoryId": 175
+                        },
+                        "id": 122936,
+                        "version": 0,
+                        "text": "https://bitbucket.example.com/projects/PROJ/repos/service-related/pull-requests/200/overview\n\n --- responce cut for privacy",
+                        "author": {
+                            "name": "user1",
+                            "emailAddress": "user1@example.com",
+                            "active": true,
+                            "displayName": "User One",
+                            "id": 1852,
+                            "slug": "user1",
+                            "type": "NORMAL",
+                            "links": {
+                                "self": [
+                                    {
+                                        "href": "https://bitbucket.example.com/users/user1"
+                                    }
+                                ]
+                            }
+                        },
+                        "createdDate": 1741947193001,
+                        "updatedDate": 1741947193001,
+                        "comments": [],
+                        "threadResolved": false,
+                        "severity": "NORMAL",
+                        "state": "OPEN",
+                        "permittedOperations": {
+                            "editable": true,
+                            "transitionable": true,
+                            "deletable": true
+                        }
+                    }
+                ],
+                "threadResolved": false,
+                "severity": "BLOCKER",
+                "state": "OPEN",
+                "permittedOperations": {
+                    "editable": false,
+                    "transitionable": true,
+                    "deletable": false
+                }
+            }
+        },
+        {
+            "id": 552367,
+            "createdDate": 1741892822989,
+            "user": {
+                "name": "user1",
+                "emailAddress": "user1@example.com",
+                "active": true,
+                "displayName": "User One",
+                "id": 1852,
+                "slug": "user1",
+                "type": "NORMAL",
+                "links": {
+                    "self": [
+                        {
+                            "href": "https://bitbucket.example.com/users/user1"
+                        }
+                    ]
+                }
+            },
+            "action": "UPDATED",
+            "addedReviewers": [
+                {
+                    "name": "user3",
+                    "emailAddress": "user3@example.com",
+                    "active": true,
+                    "displayName": "User Three",
+                    "id": 358,
+                    "slug": "user3",
+                    "type": "NORMAL",
+                    "links": {
+                        "self": [
+                            {
+                                "href": "https://bitbucket.example.com/users/user3"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "removedReviewers": []
+        },
+        {
+            "id": 552355,
+            "createdDate": 1741892321496,
+            "user": {
+                "name": "user1",
+                "emailAddress": "user1@example.com",
+                "active": true,
+                "displayName": "User One",
+                "id": 1852,
+                "slug": "user1",
+                "type": "NORMAL",
+                "links": {
+                    "self": [
+                        {
+                            "href": "https://bitbucket.example.com/users/user1"
+                        }
+                    ]
+                }
+            },
+            "action": "RESCOPED",
+            "fromHash": "b83680ebc02b18cc550b935adb41a4f95c6c6a47",
+            "previousFromHash": "6c1fd68f1d2324c354fe062f586cfa6acc1859ad",
+            "previousToHash": "31fcb0746a07c3cbe821c6ff21f6476ff28eb09d",
+            "toHash": "31fcb0746a07c3cbe821c6ff21f6476ff28eb09d",
+            "added": {
+                "commits": [
+                    {
+                        "id": "b83680ebc02b18cc550b935adb41a4f95c6c6a47",
+                        "displayId": "b83680ebc02",
+                        "author": {
+                            "name": "user1",
+                            "emailAddress": "user1@example.com",
+                            "active": true,
+                            "displayName": "User One",
+                            "id": 1852,
+                            "slug": "user1",
+                            "type": "NORMAL",
+                            "links": {
+                                "self": [
+                                    {
+                                        "href": "https://bitbucket.example.com/users/user1"
+                                    }
+                                ]
+                            }
+                        },
+                        "authorTimestamp": 1741892318000,
+                        "committer": {
+                            "name": "user1",
+                            "emailAddress": "user1@example.com",
+                            "active": true,
+                            "displayName": "User One",
+                            "id": 1852,
+                            "slug": "user1",
+                            "type": "NORMAL",
+                            "links": {
+                                "self": [
+                                    {
+                                        "href": "https://bitbucket.example.com/users/user1"
+                                    }
+                                ]
+                            }
+                        },
+                        "committerTimestamp": 1741892318000,
+                        "message": "PROJ-10037: Updated dependencies file to include latest `project-dependency==1.9.12`",
+                        "parents": [
+                            {
+                                "id": "6c1fd68f1d2324c354fe062f586cfa6acc1859ad",
+                                "displayId": "6c1fd68f1d2"
+                            }
+                        ]
+                    }
+                ],
+                "total": 1
+            },
+            "removed": {
+                "commits": [],
+                "total": 0
+            }
+        },
+        {
+            "id": 552352,
+            "createdDate": 1741892007469,
+            "user": {
+                "name": "user1",
+                "emailAddress": "user1@example.com",
+                "active": true,
+                "displayName": "User One",
+                "id": 1852,
+                "slug": "user1",
+                "type": "NORMAL",
+                "links": {
+                    "self": [
+                        {
+                            "href": "https://bitbucket.example.com/users/user1"
+                        }
+                    ]
+                }
+            },
+            "action": "OPENED"
+        }
+    ],
+    "start": 0
+}

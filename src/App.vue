@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue';
+import {onMounted, watch} from 'vue';
 import { useConfigStore, usePRStore, useNotificationStore } from './store';
 import { invoke } from "@tauri-apps/api/core";
 import 'primeicons/primeicons.css'
@@ -32,10 +32,10 @@ onMounted(async () => {
   await configStore.loadConfig();
   
   // Try to load saved PR data
-  const loaded = await prStore.loadFromLocalStorage();
-  if (!loaded) {
-  //   do nothing
-  }
+  // const loaded = await prStore.loadFromLocalStorage();
+  // if (!loaded) {
+  // //   do nothing
+  // }
   
   // Update the dock badge with the current unread count
   await updateDockBadge(prStore.totalUnreadCount);
@@ -45,6 +45,7 @@ onMounted(async () => {
   
   console.log('App initialized');
 });
+
 </script>
 
 <template>
@@ -58,7 +59,9 @@ onMounted(async () => {
       </div>
     </div>
   </nav>
-  
+
+
+
   <main class="main-content">
     <RouterView />
   </main>

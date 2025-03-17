@@ -36,13 +36,17 @@ export class BitbucketApiClient {
     try {
       const baseUrl = this.configStore.baseUrl;
       const response = await fetch(`${baseUrl}/rest/api/latest${endpoint}`, options);
-      
+      console.log('Got response:', response);
+
       if (!response.status.toString().startsWith('2')) {
         const errorText = await response.text();
         throw new Error(`API error (${response.status}): ${errorText}`);
       }
 
-      return await response.json();
+      let result = await response.json();
+      // This can be problematic for tauri http rust
+      console.log('Response:', result);
+      return result
     } catch (error) {
       console.error(`Bitbucket API error (${endpoint}):`, error);
       throw error;

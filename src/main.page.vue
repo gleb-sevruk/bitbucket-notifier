@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, } from "vue";
+import { ref, onMounted, onUnmounted, computed, watch } from "vue";
 import { useRouter } from 'vue-router';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
@@ -222,8 +222,15 @@ function startUpdateCountdown() {
     if (nextUpdateIn.value > 0) {
       nextUpdateIn.value -= 1;
     } else {
-      // Reset timer when it reaches zero
-      nextUpdateIn.value = configStore.pollInterval;
+      // When timer reaches zero, it will trigger a sync via the watcher
+      // The watcher will reset the timer
+      // Just ensure we don't create double syncs
+      if (!prStore.isLoading) {
+        nextUpdateIn.value = 0; // This will trigger the watcher
+      } else {
+        // If currently loading, wait a bit
+        nextUpdateIn.value = 10;
+      }
     }
   }, 1000) as unknown as number;
 }
@@ -244,11 +251,33 @@ onMounted(async () => {
   activeTab.value = 0;
 });
 
+// Watch for changes in PR store
+watch(() => prStore.lastSyncTime, (newTime, oldTime) => {
+  if (newTime && (!oldTime || newTime.getTime() !== oldTime.getTime())) {
+    console.log('Detected PR store update, refreshing local data');
+    updateLocalPRs();
+    notificationStore.updateDockBadge(prStore.totalUnreadCount);
+    // Reset the countdown timer on store update
+    nextUpdateIn.value = configStore.pollInterval;
+  }
+});
+
+// Watch the countdown timer
+watch(() => nextUpdateIn.value, (newValue) => {
+  if (newValue === 0) {
+    // When timer reaches zero, trigger a sync
+    console.log('Timer reached zero, syncing with Bitbucket');
+    prStore.syncWithBitbucket();
+  }
+});
+
 // Clean up timers when component is unmounted
 onUnmounted(() => {
   if (updateTimerId.value !== null) {
     clearInterval(updateTimerId.value);
   }
+  // Stop the periodic sync when the component is unmounted
+  prStore.stopPeriodicSync();
 });
 </script>
 

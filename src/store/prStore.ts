@@ -170,7 +170,13 @@ export const usePRStore = defineStore('pullRequests', () => {
     
     // Set up new interval
     syncInterval.value = setInterval(async () => {
-      await syncWithBitbucket();
+      if (!isLoading.value) {
+        console.log('Running periodic sync with Bitbucket');
+        await syncWithBitbucket();
+        needsDockBadgeUpdate.value = true;
+      } else {
+        console.log('Skipping periodic sync due to loading state');
+      }
     }, intervalSeconds * 1000) as unknown as number;
     
     console.log(`Periodic sync started with interval of ${intervalSeconds} seconds`);
@@ -310,7 +316,7 @@ export const usePRStore = defineStore('pullRequests', () => {
     }
   }
 
-  // Sync with Bitbucket API
+  // Sync with Bitbucket API - this is the master sync function
   async function syncWithBitbucket() {
     if (!isLoading.value) {
       isLoading.value = true;
@@ -318,6 +324,12 @@ export const usePRStore = defineStore('pullRequests', () => {
       try {
         // Sync all PRs relevant to me (as author and reviewer)
         await syncMyPRs();
+        
+        // Additionally sync PRs where I'm a reviewer
+        await syncPRsToReview();
+        
+        // Additionally sync PRs that I authored
+        await syncMyAuthoredPRs();
         
         // Get recent repositories to ensure we have full repository data
         const repos = await apiClient.getRecentRepositories();
@@ -337,12 +349,22 @@ export const usePRStore = defineStore('pullRequests', () => {
           }
         }
         
+        // Ensure unread counts are accurate
+        recalculateUnreadCounts();
+        
+        // Update last sync time
         lastSyncTime.value = new Date();
+        console.log('Sync completed successfully at', lastSyncTime.value);
+        
+        // Trigger badge update
+        needsDockBadgeUpdate.value = true;
       } catch (error) {
         console.error('Error syncing with Bitbucket:', error);
       } finally {
         isLoading.value = false;
       }
+    } else {
+      console.log('Sync already in progress, skipping this request');
     }
   }
 

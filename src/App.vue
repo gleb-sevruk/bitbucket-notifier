@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, watch} from 'vue';
+import {onMounted, onUnmounted, ref, watch} from 'vue';
 import { useConfigStore, usePRStore, useNotificationStore } from './store';
 import { invoke } from "@tauri-apps/api/core";
 import 'primeicons/primeicons.css'
@@ -8,6 +8,10 @@ import 'primeicons/primeicons.css'
 const configStore = useConfigStore();
 const prStore = usePRStore();
 const notificationStore = useNotificationStore();
+
+// For updating the "seconds ago" counter
+const secondsInterval = ref<number | null>(null);
+const secondsSinceSync = ref(0);
 
 // Watch for changes in unread counts to update dock badge
 watch(() => prStore.totalUnreadCount, async (newCount) => {
@@ -26,16 +30,38 @@ async function updateDockBadge(count: number) {
   }
 }
 
+// Start seconds counter
+function startSecondsCounter() {
+  // Clear existing interval if any
+  if (secondsInterval.value !== null) {
+    clearInterval(secondsInterval.value);
+  }
+  
+  // Update seconds counter every second
+  secondsInterval.value = setInterval(() => {
+    if (prStore.lastSyncTime) {
+      secondsSinceSync.value = Math.round((new Date().getTime() - prStore.lastSyncTime.getTime()) / 1000);
+    }
+  }, 1000) as unknown as number;
+}
+
+// Watch for changes in lastSyncTime
+watch(() => prStore.lastSyncTime, () => {
+  if (prStore.lastSyncTime) {
+    secondsSinceSync.value = 0;
+  }
+}, { immediate: true });
+
 // Initialize app on mount
 onMounted(async () => {
   // Load configuration
   await configStore.loadConfig();
   
   // Try to load saved PR data
-  // const loaded = await prStore.loadFromLocalStorage();
-  // if (!loaded) {
-  // //   do nothing
-  // }
+  const loaded = await prStore.loadFromLocalStorage();
+  if (loaded && prStore.lastSyncTime) {
+    secondsSinceSync.value = Math.round((new Date().getTime() - prStore.lastSyncTime.getTime()) / 1000);
+  }
   
   // Update the dock badge with the current unread count
   await updateDockBadge(prStore.totalUnreadCount);
@@ -43,7 +69,17 @@ onMounted(async () => {
   // Start periodic sync with Bitbucket (every 5 minutes by default)
   prStore.startPeriodicSync(configStore.pollInterval);
   
+  // Start the seconds counter
+  startSecondsCounter();
+  
   console.log('App initialized');
+});
+
+// Clean up on unmount
+onUnmounted(() => {
+  if (secondsInterval.value !== null) {
+    clearInterval(secondsInterval.value);
+  }
 });
 
 </script>
@@ -60,7 +96,28 @@ onMounted(async () => {
     </div>
   </nav>
 
-
+  <div class="sync-status-bar">
+    <div class="container">
+      <div class="sync-status">
+        <div class="sync-info">
+          <span v-if="prStore.isLoading" class="sync-status-loading">
+            <i class="pi pi-spin pi-spinner"></i> Syncing with Bitbucket...
+          </span>
+          <span v-else-if="prStore.lastSyncTime" class="sync-status-success">
+            <i class="pi pi-check-circle"></i> 
+            Last sync: {{ prStore.lastSyncTime.toLocaleTimeString() }} 
+            ({{ secondsSinceSync }}s ago)
+          </span>
+          <span v-else class="sync-status-pending">
+            <i class="pi pi-clock"></i> Waiting for initial sync...
+          </span>
+        </div>
+        <div class="sync-count" v-if="prStore.totalUnreadCount > 0">
+          <span class="unread-badge">{{ prStore.totalUnreadCount }} unread</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <main class="main-content">
     <RouterView />
@@ -124,6 +181,50 @@ onMounted(async () => {
   width: 100%;
 }
 
+.sync-status-bar {
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+}
+
+.sync-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sync-info {
+  display: flex;
+  align-items: center;
+}
+
+.sync-status-loading {
+  color: #3498db;
+}
+
+.sync-status-success {
+  color: #2ecc71;
+}
+
+.sync-status-pending {
+  color: #95a5a6;
+}
+
+.sync-count {
+  display: flex;
+  align-items: center;
+}
+
+.unread-badge {
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 12px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
 .main-content {
   padding: 1rem;
 }
@@ -183,6 +284,11 @@ h1, h2, h3, h4, h5, h6 {
   
   .card {
     background-color: #333;
+  }
+  
+  .sync-status-bar {
+    background-color: #222;
+    border-bottom: 1px solid #444;
   }
   
   h1, h2, h3, h4, h5, h6 {

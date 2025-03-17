@@ -13,7 +13,7 @@
     "@matpool/vue-json-view": "^0.1.8",
     "@primeuix/themes": "^1.0.0",
     "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-http": "^2.4.0",
+    "@tauri-apps/plugin-http": "^2.4.2",
     "@tauri-apps/plugin-notification": "^2.2.2",
     "@tauri-apps/plugin-opener": "^2",
     "@tauri-apps/plugin-shell": "^2.2.0",

@@ -107,13 +107,6 @@ export class BitbucketApiClient {
 
   // Get comments for a pull request
   async getCommentsForPullRequest(projectKey: string, repoSlug: string, prId: number): Promise<BitbucketComment[]> {
-    try {
-      // Removed the path parameter as it's causing errors
-      const response = await this.request<{values: BitbucketComment[]}>(`/projects/${projectKey}/repos/${repoSlug}/pull-requests/${prId}/comments`);
-      return response.values;
-    } catch (error) {
-      console.error(`Error fetching comments for PR ${prId}:`, error);
-      
       // If the direct comments endpoint fails, try fetching activities instead
       try {
         const activities = await this.request<{values: any[]}>(`/projects/${projectKey}/repos/${repoSlug}/pull-requests/${prId}/activities`);
@@ -160,7 +153,6 @@ export class BitbucketApiClient {
         // Return empty array if all attempts fail
         return [];
       }
-    }
   }
 
   // Convert Bitbucket PR to our internal model
@@ -222,6 +214,30 @@ export class BitbucketApiClient {
         }
       });
 
+      // Get approval status from reviewers
+      let approved = false;
+      let approvalStatus = 'UNAPPROVED';
+      
+      try {
+        if (bbPR.reviewers && bbPR.reviewers.length > 0) {
+          // Count approved reviewers
+          const approvedReviewers = bbPR.reviewers.filter(reviewer => reviewer.approved === true);
+          
+          // If any reviewer has approved, set approved to true
+          if (approvedReviewers.length > 0) {
+            approved = true;
+            approvalStatus = 'APPROVED';
+          }
+          
+          // Show partial approval if some but not all reviewers approved
+          if (approvedReviewers.length > 0 && approvedReviewers.length < bbPR.reviewers.length) {
+            approvalStatus = `APPROVED (${approvedReviewers.length}/${bbPR.reviewers.length})`;
+          }
+        }
+      } catch (error) {
+        console.warn('Error calculating approval status:', error);
+      }
+
       // Create new PR or update existing, preserving comment status
       return {
         id: bbPR.id.toString(),
@@ -232,7 +248,9 @@ export class BitbucketApiClient {
         updatedOn: new Date(bbPR.updatedDate || bbPR.createdDate || Date.now()).toISOString(),
         status: bbPR.state || 'UNKNOWN',
         comments: convertedComments,
-        unreadCount: convertedComments.filter(c => !c.isRead).length
+        unreadCount: convertedComments.filter(c => !c.isRead).length,
+        approved: approved,
+        approvalStatus: approvalStatus
       };
     } catch (error) {
       console.error('Error converting pull request:', error);
@@ -246,7 +264,9 @@ export class BitbucketApiClient {
         updatedOn: new Date().toISOString(),
         status: 'ERROR',
         comments: [],
-        unreadCount: 0
+        unreadCount: 0,
+        approved: false,
+        approvalStatus: 'UNKNOWN'
       };
     }
   }

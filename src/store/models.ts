@@ -18,6 +18,8 @@ export interface PullRequest {
   status: string;
   comments: Comment[];
   unreadCount: number;
+  approved?: boolean;
+  approvalStatus?: string;
 }
 
 export interface Repository {

@@ -351,6 +351,15 @@ onUnmounted(() => {
               </template>
             </Column>
             
+            <Column field="approvalStatus" header="Approval" sortable style="width: 8rem">
+              <template #body="{ data }">
+                <Chip 
+                  :label="data.approvalStatus || 'UNAPPROVED'" 
+                  :severity="data.approved ? 'success' : 'warning'" 
+                />
+              </template>
+            </Column>
+            
             <Column field="updatedOn" header="Updated" sortable style="width: 12rem">
               <template #body="{ data }">
                 {{ formatDate(data.updatedOn) }}
@@ -437,6 +446,14 @@ onUnmounted(() => {
             
             <Column field="title" header="Title" sortable />
             <Column field="author" header="Author" sortable style="width: 10rem" />
+            <Column field="approvalStatus" header="Approval" sortable style="width: 8rem">
+              <template #body="{ data }">
+                <Chip 
+                  :label="data.approvalStatus || 'UNAPPROVED'" 
+                  :severity="data.approved ? 'success' : 'warning'" 
+                />
+              </template>
+            </Column>
             <Column field="updatedOn" header="Updated" sortable style="width: 12rem">
               <template #body="{ data }">
                 {{ formatDate(data.updatedOn) }}
@@ -516,6 +533,14 @@ onUnmounted(() => {
                 <Chip 
                   :label="data.status" 
                   :severity="data.status === 'OPEN' ? 'info' : 'success'" 
+                />
+              </template>
+            </Column>
+            <Column field="approvalStatus" header="Approval" sortable style="width: 8rem">
+              <template #body="{ data }">
+                <Chip 
+                  :label="data.approvalStatus || 'UNAPPROVED'" 
+                  :severity="data.approved ? 'success' : 'warning'" 
                 />
               </template>
             </Column>
@@ -600,6 +625,14 @@ onUnmounted(() => {
               
               <Column field="title" header="Title" sortable />
               <Column field="author" header="Author" sortable style="width: 10rem" />
+              <Column field="approvalStatus" header="Approval" sortable style="width: 8rem">
+                <template #body="{ data }">
+                  <Chip 
+                    :label="data.approvalStatus || 'UNAPPROVED'" 
+                    :severity="data.approved ? 'success' : 'warning'" 
+                  />
+                </template>
+              </Column>
               <Column field="updatedOn" header="Updated" sortable style="width: 12rem">
                 <template #body="{ data }">
                   {{ formatDate(data.updatedOn) }}
@@ -682,6 +715,14 @@ onUnmounted(() => {
             </Column>
             
             <Column field="title" header="Title" sortable />
+            <Column field="approvalStatus" header="Approval" sortable style="width: 8rem">
+              <template #body="{ data }">
+                <Chip 
+                  :label="data.approvalStatus || 'UNAPPROVED'" 
+                  :severity="data.approved ? 'success' : 'warning'" 
+                />
+              </template>
+            </Column>
             <Column field="updatedOn" header="Updated" sortable style="width: 12rem">
               <template #body="{ data }">
                 {{ formatDate(data.updatedOn) }}

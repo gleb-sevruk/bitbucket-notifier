@@ -1,5 +1,5 @@
 // Export store modules
-export * from './models';
+export * from '../shared/models.ts';
 export * from './configStore';
 export * from './prStore';
 export * from './notificationStore';

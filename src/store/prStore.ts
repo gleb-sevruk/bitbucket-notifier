@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { BitbucketPR, Repository, PullRequest } from './models';
+import { BitbucketPR, Repository, PullRequest } from '../shared/models.ts';
 import { BitbucketApiClient } from './bitbucketApi';
 import { useNotificationStore } from './notificationStore';
 
@@ -130,33 +130,56 @@ export const usePRStore = defineStore('pullRequests', () => {
   // Save data to local storage
   async function saveToLocalStorage() {
     try {
-      // Convert date to string for storage
+      // Only save comment read states
+      const commentStates = repositories.value.reduce((acc, repo) => {
+        repo.pullRequests.forEach(pr => {
+          pr.comments.forEach(comment => {
+            acc[`${repo.slug}/${pr.id}/${comment.id}`] = comment.isRead;
+          });
+        });
+        return acc;
+      }, {} as Record<string, boolean>);
+      
       const dataToSave = {
-        repositories: repositories.value,
+        commentStates,
         lastSyncTime: lastSyncTime.value ? lastSyncTime.value.toISOString() : null
       };
       
       localStorage.setItem('bitbucket-pr-data', JSON.stringify(dataToSave));
-      console.log('PR data saved to storage');
+      console.log('Comment states saved to storage');
     } catch (error) {
-      console.error('Error saving PR data:', error);
+      console.error('Error saving comment states:', error);
     }
   }
   
   // Load data from local storage
   async function loadFromLocalStorage() {
+    console.log('prStore loadFromLocalStorage');
     try {
       const savedData = localStorage.getItem('bitbucket-pr-data');
       if (savedData) {
         const parsedData = JSON.parse(savedData);
-        repositories.value = parsedData.repositories;
+        const commentStates = parsedData.commentStates || {};
+        
+        // Apply saved comment states to current PRs
+        repositories.value.forEach(repo => {
+          repo.pullRequests.forEach(pr => {
+            pr.comments.forEach(comment => {
+              const key = `${repo.slug}/${pr.id}/${comment.id}`;
+              if (key in commentStates) {
+                comment.isRead = commentStates[key];
+              }
+            });
+          });
+        });
+        
         lastSyncTime.value = parsedData.lastSyncTime ? new Date(parsedData.lastSyncTime) : null;
-        console.log('PR data loaded from storage');
+        console.log('Comment states loaded from storage');
         return true;
       }
       return false;
     } catch (error) {
-      console.error('Error loading PR data:', error);
+      console.error('Error loading comment states:', error);
       return false;
     }
   }

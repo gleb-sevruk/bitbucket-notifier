@@ -3,7 +3,7 @@ import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from 'vue-router';
 import { useConfigStore } from "./store";
 import { usePRStore } from "./store/prStore";
-import { PullRequest } from "./store/models";
+import { PullRequest } from "./shared/models.ts";
 import Card from 'primevue/card';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';

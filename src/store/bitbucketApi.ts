@@ -7,7 +7,7 @@ import {
   PullRequest,
   Comment,
   Repository
-} from './models';
+} from '../shared/models.ts';
 
 export class BitbucketApiClient {
   private configStore = useConfigStore();

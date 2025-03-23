@@ -89,39 +89,25 @@ const lastUpdated = computed(() => {
 
 // Fetch data from Bitbucket
 async function fetchData() {
-  loading.value = true;
-  let apiSucceeded = false;
+  // Show existing data immediately if we have it
+  if (prStore.repositories.length > 0) {
+    updateLocalPRs();
+    loading.value = false;
+  } else {
+    loading.value = true;
+  }
   
   try {
-    // Try to load from local storage first
-    const loadedFromStorage = await prStore.loadFromLocalStorage();
+    // Always fetch fresh data from API in background
+    await prStore.syncWithBitbucket();
     
-    // If no data in storage or it's stale, fetch from API
-    if (!loadedFromStorage || !lastUpdated.value || 
-        (new Date().getTime() - lastUpdated.value.getTime() > 5 * 60 * 1000)) {
-      // Try to sync with Bitbucket
-      try {
-        await prStore.syncWithBitbucket();
-        apiSucceeded = true;
-      } catch (apiError) {
-        console.error('Error syncing with Bitbucket API:', apiError);
-        // API failed but we might still have data from localStorage
-      }
-    } else {
-      // We have recent data from localStorage
-      apiSucceeded = true;
-    }
+    // Load comment states from storage
+    await prStore.loadFromLocalStorage();
     
     updateLocalPRs();
   } catch (error) {
     console.error('Error loading data:', error);
   } finally {
-    // Do not use mock data even if API failed
-    if (!apiSucceeded && prStore.repositories.length === 0) {
-      console.log('API request failed, but will not load mock data');
-      // Mock data functionality has been removed
-    }
-    
     loading.value = false;
   }
 }
